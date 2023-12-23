@@ -1,7 +1,6 @@
 <?php
 
 use App\Services\Ingredients;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,6 +18,10 @@ use Illuminate\Support\Facades\Route;
 //    'title' => 'Example'
 // ]);
 
-Route::get('/ingredients/list', function (Request $request) {
-    return response()->json(Ingredients::search($request->get('q')));
+Route::get('/ingredients/list/{q}', function (string $q) {
+    return response()->json(Ingredients::search($q));
+});
+
+Route::get('/ingredients/show/{id}', function (string $id) {
+    return response()->json(Ingredients::get($id));
 });

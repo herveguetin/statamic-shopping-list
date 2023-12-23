@@ -29,4 +29,17 @@ class Ingredients
         $json = json_encode($xmlObject);
         return json_decode($json, true)['ALIM'];
     }
+
+    public static function get(string $id): array
+    {
+        foreach (self::loadIngredientsFile() as $ingredient) {
+            if (strtolower($id) === trim(strtolower($ingredient['alim_code']))) {
+                return [
+                    'id' => trim($ingredient['alim_code']),
+                    'name' => trim($ingredient['alim_nom_fr'])
+                ];
+            }
+        }
+        return [];
+    }
 }

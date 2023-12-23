@@ -6,3 +6,5 @@ preferences:
   collections:
     blog:
       after_save: continue_editing
+    dishes:
+      after_save: continue_editing
