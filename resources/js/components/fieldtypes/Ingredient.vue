@@ -57,7 +57,7 @@ export default {
         search: _.debounce((loading, search, vm) => {
             fetch('/ingredients/list/' + search)
                 .then(response => {
-                    response.json().then(json => (vm.options = json))
+                    response.json().then(json => vm.options = json)
                     loading(false)
                 })
         }, 350),
