@@ -15,10 +15,7 @@ class Ingredients
             return str_contains(trim(strtolower($item['alim_nom_fr'])), strtolower($q));
         });
         return array_values(array_map(function ($match) {
-            return [
-                'id' => trim($match['alim_code']),
-                'name' => trim($match['alim_nom_fr'])
-            ];
+            return self::makeIngredient($match);
         }, $matches));
     }
 
@@ -34,12 +31,17 @@ class Ingredients
     {
         foreach (self::loadIngredientsFile() as $ingredient) {
             if (strtolower($id) === trim(strtolower($ingredient['alim_code']))) {
-                return [
-                    'id' => trim($ingredient['alim_code']),
-                    'name' => trim($ingredient['alim_nom_fr'])
-                ];
+                return self::makeIngredient($ingredient);
             }
         }
         return [];
+    }
+
+    private static function makeIngredient(mixed $ingredient): array
+    {
+        return [
+            'code' => trim($ingredient['alim_code']),
+            'label' => trim($ingredient['alim_nom_fr'])
+        ];
     }
 }

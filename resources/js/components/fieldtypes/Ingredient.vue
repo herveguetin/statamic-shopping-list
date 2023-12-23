@@ -5,10 +5,9 @@
         <input type="hidden" :value="value"/>
         <ul v-show="items.length > 0">
             <li v-for="item in items" @click="onSelect(item)">
-                {{ item.name }}
+                {{ item.label }}
             </li>
         </ul>
-
     </div>
 
 </template>
@@ -29,7 +28,7 @@ export default {
             const response = await fetch('/ingredients/show/' + this.value)
             let result = await response.json()
             if (result.length !== 0) {
-                this.q = result['name']
+                this.q = result['label']
             }
         },
         async onInput() {
@@ -41,8 +40,8 @@ export default {
             }
         },
         onSelect(item) {
-            this.update(item.id)
-            this.q = item.name
+            this.update(item.code)
+            this.q = item.label
             this.items = []
         }
     },
