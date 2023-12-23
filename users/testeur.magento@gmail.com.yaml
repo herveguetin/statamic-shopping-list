@@ -1,0 +1,8 @@
+name: Testeur
+super: true
+id: 24bc932e-bf04-430d-86d0-34040985d381
+password_hash: $2y$10$JyTkCE3zgHwe0VUBIc18Pe2KiYWtLR6bvxlqlywtmG.yBa4JzNxci
+preferences:
+  collections:
+    blog:
+      after_save: continue_editing

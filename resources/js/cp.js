@@ -12,3 +12,9 @@ Statamic.booting(() => {
 });
 
 */
+import TogglePassword from "./components/fieldtypes/TogglePassword.vue"
+import Ingredient from "./components/fieldtypes/Ingredient.vue"
+Statamic.booting(() => {
+    Statamic.$components.register('toggle_password-fieldtype', TogglePassword);
+    Statamic.$components.register('ingredient-fieldtype', Ingredient);
+});

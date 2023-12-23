@@ -1,5 +1,7 @@
 <?php
 
+use App\Services\Ingredients;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +18,7 @@ use Illuminate\Support\Facades\Route;
 // Route::statamic('example', 'example-view', [
 //    'title' => 'Example'
 // ]);
+
+Route::get('/ingredients/list', function (Request $request) {
+    return response()->json(Ingredients::search($request->get('q')));
+});
