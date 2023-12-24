@@ -23,7 +23,7 @@ return [
     | the Laravel Debugbar package (when enabled).
     |
     */
-    
+
     'debugbar' => env('STATAMIC_ANTLERS_DEBUGBAR', true),
 
     /*
