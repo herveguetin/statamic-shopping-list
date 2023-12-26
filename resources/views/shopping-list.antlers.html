@@ -1,0 +1,42 @@
+<div class="container xl grid gap-4 grid-cols-1 md:grid-cols-3" x-data="shoppingList">
+    <template x-for="group in ingredientGroups">
+        <div class="card bg-base-400 shadow-xl">
+            <div class="card-body">
+                <h2 class="card-title" x-text="group.name"></h2>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>Ingredient</th>
+                        <th class="text-right">Quantity</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <template x-for="ingredient in group.ingredients">
+                        <tr :class="checkedIngredients.includes(ingredient.code) ? 'text-gray-400 line-through' : ''">
+                            <td><input type="checkbox" class="checkbox" @change="toggleIngredient(ingredient)"/></td>
+                            <td><span x-text="ingredient.name"></span></td>
+                            <td class="text-right"><span x-text="ingredient.quantity"></span></td>
+                        </tr>
+                    </template>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </template>
+</div>
+<script>
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('shoppingList', () => ({
+            ingredientGroups: JSON.parse('{{ ingredient_groups | to_json }}'),
+            checkedIngredients: [],
+            toggleIngredient(ingredient) {
+                if (this.checkedIngredients.includes(ingredient.code)) {
+                    this.checkedIngredients = this.checkedIngredients.filter(checkedIngredient => checkedIngredient !== ingredient.code)
+                } else {
+                    this.checkedIngredients.push(ingredient.code)
+                }
+            }
+        }))
+    })
+</script>

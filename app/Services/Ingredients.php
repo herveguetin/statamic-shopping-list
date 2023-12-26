@@ -11,6 +11,8 @@ class Ingredients
 {
     const INGREDIENTS_FILE_STORAGE_PATH = '/app/ingredients/alim_2020_07_07.xml';
 
+    const GROUPS_FILE_STORAGE_PATH = '/app/ingredients/alim_grp_2020_07_07.xml';
+
     public static function get(string $id): array
     {
         $ingredients = new static();
@@ -20,7 +22,7 @@ class Ingredients
 
     public function getById(string $id): array
     {
-        foreach ($this->loadIngredientsFile() as $ingredient) {
+        foreach (static::loadIngredientsFile() as $ingredient) {
             if (strtolower($id) === trim(strtolower($ingredient['alim_code']))) {
                 return $this->makeIngredient($ingredient);
             }
@@ -29,13 +31,23 @@ class Ingredients
         return [];
     }
 
-    private function loadIngredientsFile(): array
+    public static function loadIngredientsFile(): array
     {
-        $xmlString = file_get_contents(storage_path().self::INGREDIENTS_FILE_STORAGE_PATH);
+        return static::loadFile(self::INGREDIENTS_FILE_STORAGE_PATH)['ALIM'];
+    }
+
+    public static function loadGroupsFile(): array
+    {
+        return static::loadFile(self::GROUPS_FILE_STORAGE_PATH)['ALIM_GRP'];
+    }
+
+    private static function loadFile(string $path): array
+    {
+        $xmlString = file_get_contents(storage_path().$path);
         $xmlObject = simplexml_load_string($xmlString);
         $json = json_encode($xmlObject);
 
-        return json_decode($json, true)['ALIM'];
+        return json_decode($json, true);
     }
 
     private function makeIngredient(mixed $ingredient): array
@@ -65,20 +77,16 @@ class Ingredients
 
     private function getSearchTerms($q): array
     {
-        return array_filter(explode(' ', $q), function (string $term) {
-            return strlen($term) > 3;
-        });
+        return array_filter(explode(' ', $q), fn (string $term) => strlen($term) > 3);
     }
 
     private function searchTerm(string $term): array
     {
-        $matches = array_filter($this->loadIngredientsFile(), function (array $item) use ($term) {
+        $matches = array_filter(static::loadIngredientsFile(), function (array $item) use ($term) {
             return Str::contains($item['alim_nom_fr'], $term, true);
         });
 
-        return array_values(array_map(function ($match) {
-            return $this->makeIngredient($match);
-        }, $matches));
+        return array_values(array_map(fn ($match) => $this->makeIngredient($match), $matches));
     }
 
     private function score(array $response, array $searchTerms): array
@@ -95,9 +103,7 @@ class Ingredients
             return $item;
         }, $response);
 
-        usort($response, function ($a, $b) {
-            return $a['score'] <= $b['score'];
-        });
+        usort($response, fn ($a, $b) => $a['score'] <= $b['score']);
 
         return $response;
     }

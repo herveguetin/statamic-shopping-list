@@ -1,4 +1,5 @@
 title: Meals
+template: meals/show
 revisions: false
 date_behavior:
   past: public

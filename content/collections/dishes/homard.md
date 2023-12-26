@@ -3,7 +3,7 @@ id: a778043a-420d-4b30-8440-19250f4ab60c
 blueprint: dish
 title: 'Cocotte de la mer'
 updated_by: 24bc932e-bf04-430d-86d0-34040985d381
-updated_at: 1703369668
+updated_at: 1703584628
 ingredients:
   -
     id: lqh2j801
@@ -37,6 +37,13 @@ ingredients:
     id: lqimaolp
     name: '5215'
     quantity: 1
+    unit: piece
+    type: ingredient
+    enabled: true
+  -
+    id: lqm6akfy
+    name: '10010'
+    quantity: 2
     unit: piece
     type: ingredient
     enabled: true
